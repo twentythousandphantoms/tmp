@@ -86,3 +86,12 @@
    COPY db_config /reddit/db_config
    COPY start.sh /start.sh 
    ```
+1. Install the App dependencies and script file mode
+
+   Add to Dockerfile:
+   ```
+   RUN cd /reddit && bundle install
+   RUN chmod 0777 /start.sh
+   ```
+
+
