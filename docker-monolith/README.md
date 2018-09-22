@@ -72,5 +72,10 @@
    RUN apt-get install -y mongodb-server ruby-full ruby-dev build-essential git
    RUN gem install bundler
    ```
+1. Download the App to the container
 
+   Add to Dockerfile:
+   ```
+   RUN git clone -b monolith https://github.com/express42/reddit.git 
+   ```
 
