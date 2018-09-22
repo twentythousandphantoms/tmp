@@ -78,4 +78,11 @@
    ```
    RUN git clone -b monolith https://github.com/express42/reddit.git 
    ```
+1. Copy configuration files to the container
 
+   Add to Dockerfile:
+   ```
+   COPY mongod.conf /etc/mongod.conf
+   COPY db_config /reddit/db_config
+   COPY start.sh /start.sh 
+   ```
