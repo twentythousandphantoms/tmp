@@ -99,4 +99,41 @@
    ```
    CMD ["/start.sh"]
    ```
+1. We are ready to build the image
 
+   ```
+   $ docker build -t reddit:latest . 
+   Sending build context to Docker daemon 36.86kB
+   Step 1/12 : FROM ubuntu:16.04
+   16.04: Pulling from library/ubuntu
+   ...
+   Successfully built ad21718d3eb5
+   Successfully tagged reddit:latest
+
+   ```
+   [Log example](https://raw.githubusercontent.com/express42/otus-snippets/master/hw-15/build.log)
+   Option `-t` - Name and optionally a tag in the 'name:tag' format
+
+1. Now we can start the container
+  
+   ```
+   $ docker run --name reddit -d --network=host reddit:latest 
+   ```
+1. Allow INPUT TCP-traffic on port 9292
+
+   ```
+   $ gcloud compute firewall-rules create reddit-app \
+    --allow tcp:9292 \
+    --target-tags=docker-machine \
+    --description="Allow PUMA connections" \
+    --direction=INGRESS
+   ```
+
+1. Check
+
+   ```
+   $ docker-machine ls 
+   NAME          ACTIVE   DRIVER   STATE     URL                       SWARM   DOCKER        ERRORS
+   docker-host   *        google   Running   tcp://_your_IP_address__:2376           v18.06.1-ce 
+   ```
+   Open _your_IP_address_:9292 in browser
