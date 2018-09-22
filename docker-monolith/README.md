@@ -58,3 +58,9 @@
 ## Build my own docker image
 
 1. For the futher work we need four files: `mongod.conf` `db_config` `start.sh` and `Dockerfile`. 
+1. Lets create App Image
+
+   Dockerfile:
+   ```
+   FROM ubuntu:16.04
+   ```
