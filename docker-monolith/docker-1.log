@@ -5,3 +5,28 @@ hello-world                              latest              4ab4c602aa5e       
 ubuntu                                   16.04               b9e15a5d1e1a        2 weeks ago         115MB
 ubuntu                                   latest              cd6d8154f1e1        2 weeks ago         84.1MB
 nginx                                    latest              06144b287844        2 weeks ago         109MB
+
+DIFFERENCE between an image and container
+image + new rw-layer + additional metadata (some system limitations and settings nessesary for start) + process space (if started) = container
+
+An image is an ordered collection of root filesystem changes and the corresponding execution parameters for use within a container runtime. Images are read-only.
+A container is an active (or inactive if exited) stateful instantiation of an image.
+
+`docker inspect image` displays detailed information (or meta-data) of container such as:
+- image id
+- parent images (prev layers) ids
+- container (from which it has been created) id
+and other
+
+`docker create <image-id>` takes an image, add new rw layer over it.
+`docker start <container-id>` starts container (create process space for it).
+`docker run <image-id>` takes an image, add new rw layer over it, preparing for start (addition metadata) and starts it.
+
+`docker inspect container` displays detailed information (or meta-data) of container such as
+- container id
+- state (running/paused/etc)
+- image (from which it has been created) id
+- path to new rw-layer
+- system limitations and preferences
+- network settings
+and other
