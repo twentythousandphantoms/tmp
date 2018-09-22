@@ -1,0 +1,7 @@
+% docker images                                                                                                                                                                                                                         130 ↵
+REPOSITORY                               TAG                 IMAGE ID            CREATED             SIZE
+twentythousandphantoms/ubuntu-tmp-file   latest              319422b81e22        14 seconds ago      115MB
+hello-world                              latest              4ab4c602aa5e        2 weeks ago         1.84kB
+ubuntu                                   16.04               b9e15a5d1e1a        2 weeks ago         115MB
+ubuntu                                   latest              cd6d8154f1e1        2 weeks ago         84.1MB
+nginx                                    latest              06144b287844        2 weeks ago         109MB
