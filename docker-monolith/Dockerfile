@@ -8,3 +8,4 @@ COPY db_config /reddit/db_config
 COPY start.sh /start.sh 
 RUN cd /reddit && bundle install
 RUN chmod 0777 /start.sh
+CMD ["/start.sh"]
