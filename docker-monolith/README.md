@@ -64,3 +64,13 @@
    ```
    FROM ubuntu:16.04
    ```
+1. There are mongo and ruby needed for this app. Update repo cache and install the packets
+
+   Add to Dockerfile:
+   ```
+   RUN apt-get update
+   RUN apt-get install -y mongodb-server ruby-full ruby-dev build-essential git
+   RUN gem install bundler
+   ```
+
+
