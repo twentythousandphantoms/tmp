@@ -137,3 +137,68 @@
    docker-host   *        google   Running   tcp://_your_IP_address__:2376           v18.06.1-ce 
    ```
    Open _your_IP_address_:9292 in browser
+
+## Work with Docker Hub
+
+>  Docker Hub is a cloud-based registry service which allows you to link to code repositories, build your images and test them, stores manually pushed images, and links to Docker Cloud so you can deploy images to your hosts.
+1. Register in https://hub.docker.com/
+1. Authentificate in Docker Hub
+
+   ````
+   docker login
+   Login with your Docker ID to push and pull images from Docker Hub.
+   If you don't have a Docker ID, head over to https://hub.docker.com to create one.
+
+   Username: your-login
+   Password:
+ 
+   Login Succeeded
+   ```
+1. Uplaod the image to Docker Hub. So we can use it further
+
+   ```
+   $ docker tag reddit:latest <your-login>/otus-reddit:1.0
+
+   $ docker push <your-login>/otus-reddit:1.0
+   The push refers to a repository [docker.io/<your-login>/otus-reddit]
+   c6e5100de1e0: Pushed
+   ...
+   a2022691bf95: Pushed
+   1.0: digest:
+   sha256:77c6070400a5b04f8db3f7c129a2c16084c2fcf186aa6b436c8d6f57e0014378 size:
+   3448
+   ```
+1. Since that image is present in Docker Hub, we can run it not only with docker-host on GCP, but alsa on localhost or any other host.
+
+   To check run it on other console:
+
+   `$ docker run --name reddit -d -p 9292:9292 <your-login>/otus-reddit:1.0`
+1. In additioanal you can discover the containers logs, log in running container, check the proccess list, stop the container, run it again, stop and remove, then start container without starting the app and check the proccesses with followed commands:
+
+   ```
+   • docker logs reddit -f
+   • docker exec -it reddit bash
+     • ps aux
+     • killall5 1
+   • docker start reddit
+   • docker stop reddit && docker rm reddit
+   • docker run --name reddit --rm -it <your-login>/otus-reddit:1.0 bash
+     • ps aux
+     • exit
+   ```
+1. And see the detailed information about the image, display specific fragment of information, run the app and add/remove directories and check the diff, make sure that after stopping and removing the container there is nothing changes with followed commands:
+
+   ```
+   • docker inspect <your-login>/otus-reddit:1.0
+   • docker inspect <your-login>/otus-reddit:1.0 -f '{{.ContainerConfig.Cmd}}'
+   • docker run --name reddit -d -p 9292:9292 <your-login>/otus-reddit:1.0
+   • docker exec -it reddit bash
+     • mkdir /test1234
+     • touch /test1234/testfile
+     • rmdir /opt
+     • exit
+   • docker diff reddit
+   • docker stop reddit && docker rm reddit
+   • docker run --name reddit --rm -it <your-login>/otus-reddit:1.0 bash
+     • ls /
+   ```
