@@ -1,1 +1,8 @@
+# IDE
 *.swp
+
+# Terraform
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
