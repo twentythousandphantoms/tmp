@@ -1,11 +1,11 @@
 # twentythousandphantoms_microservices
 ## Table of Contents
   
-- HW-14 [Prepare Google Cloud project](#prepare-google-cloud-project)
-- HW-14 [Create the docker host](#create-the-docker-host)
-- HW-14 [Build my own docker image](#build-my-own-docker-image)
-- HW-14 [Work with Docker Hub](#work-with-docker-hub)
-- HW-14* [Prepare docker-host instances via Terraform](#prepare-docher-host-instances-via-terraform)
+-  [Prepare Google Cloud project](#prepare-google-cloud-project)
+-  [Create the docker host](#create-the-docker-host)
+-  [Build my own docker image](#build-my-own-docker-image)
+-  [Work with Docker Hub](#work-with-docker-hub)
+- * [Prepare docker-host instances via Terraform](#prepare-docker-host-instances-via-terraform)
   
 ## prepare Google Cloud project
   
@@ -222,8 +222,49 @@
 1. You can let the docker-machine know about existing hosts with `--google-use-existing` parameter
 
    ```
-   docker-machine create --driver google \
+   $ docker-machine create --driver google \
      --google-use-existing --google-zone europe-west1-c \
-   docker-host-0
+     docker-host-0
    ```
 
+## Create Ansible playbooks that installs Docker and runs App image
+
+
+1. First, configure Ansible dynamic inventory to work with GCP.
+
+   Install requirenments:
+
+   ```
+   $ echo "requests>=2.5.1\ngoogle-auth" > docker-monolith/infra/ansible/requirements.txt
+   $ pip install -r docker-monolith/infra/ansible/requirements.txt
+   ```
+   
+   2. [Create service-account](https://console.cloud.google.com/iam-admin/serviceaccounts) with "Project -> Editor" role and downloads a file that contains the private key. Store the file securely because this key cannot be recovered if lost.
+
+   3. Enable "gcp_compute" [inventory plugin](https://docs.ansible.com/ansible/2.7/plugins/inventory.html):
+
+   ```
+   $ echo "[inventory]\nenable_plugins = gcp_compute, auto" >> docker-monolith/infra/ansible/ansible.cfg
+   ```
+
+   4. Create gcp_config. Docs: https://docs.ansible.com/ansible/2.7/plugins/inventory/gcp_compute.html. Example:
+
+   ```
+   plugin: gcp_compute
+   projects:
+     - project-111111
+   filters:
+   auth_kind: serviceaccount
+   service_account_file: /home/111111/study/project-f7d9e118c0c9.json 
+   hostnames:
+     - name
+   compose:
+     ansible_host: networkInterfaces[0].accessConfigs[0].natIP
+   ```
+
+   5. Check:
+
+   ```
+   $ cd docker-monolith/infra/ansible/
+   $ ansible-inventory -i project.gcp.yml
+   ```

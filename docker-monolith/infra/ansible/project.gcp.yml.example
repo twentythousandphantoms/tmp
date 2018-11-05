@@ -1,0 +1,11 @@
+plugin: gcp_compute
+projects:
+  - project-111111
+filters:
+auth_kind: serviceaccount
+#service_account_email: service-account-ansible@project-111111.iam.gserviceaccount.com 
+service_account_file: /home/111111/study/project-f7d9e118c0c9.json 
+hostnames:
+  - name
+compose:
+  ansible_host: networkInterfaces[0].accessConfigs[0].natIP
