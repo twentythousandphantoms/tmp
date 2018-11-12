@@ -232,7 +232,7 @@
 
 1. First, configure Ansible dynamic inventory to work with GCP.
 
-   Install requirenments:
+   1. Install requirenments:
 
    ```
    $ echo "requests>=2.5.1\ngoogle-auth" > docker-monolith/infra/ansible/requirements.txt
@@ -268,3 +268,14 @@
    $ cd docker-monolith/infra/ansible/
    $ ansible-inventory -i project.gcp.yml
    ```
+
+2. Instances need python for Ansible work, so install it with raw command (`install_python.yml`):
+
+   ```
+   tasks:
+   - name: Ensure that Python is installed
+     raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"
+   ```
+
+3. Install Docker with all dependencies and also `pip` and `docker-py` that needed for manage Docker via Ansible (`install_docker.yml`)
+4. Start container from Docker Hub with [docker_container](https://docs.ansible.com/ansible/latest/modules/docker_container_module.html) Ansible Module (`start_app_in_docker.yml`)5. Unite all that playbooks in one (`site.yml`)

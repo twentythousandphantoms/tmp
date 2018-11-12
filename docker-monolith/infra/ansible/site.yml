@@ -1,0 +1,4 @@
+---
+- import_playbook: install_python.yml
+- import_playbook: install_docker.yml
+- import_playbook: start_app_with_docker.yml

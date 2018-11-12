@@ -1,0 +1,9 @@
+---
+- name: Install Python
+  hosts: tag_reddit_app
+  gather_facts: False
+  become: True
+
+  tasks:
+  - name: Ensure that Python is installed
+    raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal)"

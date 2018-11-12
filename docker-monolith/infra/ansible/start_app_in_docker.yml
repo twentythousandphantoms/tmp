@@ -1,0 +1,15 @@
+---
+- name: Install app
+  become: true
+  hosts: tag_reddit_app
+  tasks:
+
+  - name: Start docker container with app
+    docker_container:
+      name: puma-app
+      image: nsevenx/otus-reddit:1.0
+      state: started
+      ports:
+        - "9292:9292"
+      volumes:
+        - /root
